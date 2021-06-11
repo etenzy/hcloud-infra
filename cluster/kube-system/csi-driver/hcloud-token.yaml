@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hcloud-csi-controller
+  namespace: kube-system
+spec:
+  template:
+    spec:
+      containers:
+        - name: hcloud-csi-driver
+          env:
+            - name: HCLOUD_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: cloud-provider-credentials
+                  key: HZ_TOKEN
