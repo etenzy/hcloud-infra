@@ -1,0 +1,145 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: grafana
+  namespace: monitoring
+spec:
+  chart:
+    spec:
+      chart: grafana
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+  dependsOn:
+    - name: prometheus
+  interval: 1m0s
+  values:
+    #121
+    service:
+      labels:
+        app: grafana
+    #158
+    ingress:
+      enabled: false
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        kubernetes.io/ingress.class: nginx
+      path: /
+      hosts:
+        - grafana.monitoring.kubeone.kube.uno
+      tls:
+        - hosts:
+            - grafana.monitoring.kubeone.kube.uno
+          secretName: grafana.monitoring.kubeone.kube.uno
+    #226
+    persistence:
+      enabled: true
+    #333
+    # envFromSecret: grafana-env
+    #360
+    plugins:
+      - digrich-bubblechart-panel
+      - grafana-clock-panel
+      - btplc-status-dot-panel
+    #367
+    datasources:
+      datasources.yaml:
+        apiVersion: 1
+        datasources:
+          - name: Prometheus
+            type: prometheus
+            url: http://prometheus-prometheus.monitoring.svc.cluster.local:9090
+            isDefault: true
+          - name: Loki
+            type: loki
+            url: http://loki.monitoring.svc.cluster.local:3100
+    #408
+    dashboardProviders:
+      dashboardproviders.yaml:
+        apiVersion: 1
+        providers:
+          - name: "default"
+            orgId: 1
+            folder: ""
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/default
+          - name: "NGINX Ingress"
+            orgId: 1
+            folder: "NGINX Ingress"
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/nginx-ingress
+          - name: "Linkerd"
+            orgId: 1
+            folder: "Linkerd"
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/linkerd
+          - name: "extra"
+            orgId: 1
+            folder: "extra"
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/extra
+    #427
+    dashboards:
+      default:
+        kubernetes:
+          url: https://raw.githubusercontent.com/linkerd/linkerd2/main/grafana/dashboards/kubernetes.json
+          datasource: Prometheus
+        node-exporter-full:
+          gnetId: 1860
+          revision: 22
+          datasource: Prometheus
+      linkerd:
+        authority:
+          url: https://raw.githubusercontent.com/linkerd/linkerd2/main/grafana/dashboards/authority.json
+          datasource: "Linkerd Prometheus"
+        cronjob:
+          url: https://raw.githubusercontent.com/linkerd/linkerd2/main/grafana/dashboards/cronjob.json
+          datasource: "Linkerd Prometheus"
+      nginx-ingress:
+        ingress-nginx:
+          gnetId: 9614
+          revision: 1
+          datasource: Prometheus
+        request-handling-performance:
+          url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/request-handling-performance.json
+          datasource: Prometheus
+      extra:
+        kubernetes-overview:
+          gnetId: 11802
+          revision: 4
+          datasource: Prometheus
+        mysql-overview:
+          gnetId: 7362
+          revision: 5
+          datasource: Prometheus
+    #481
+    grafana.ini:
+      server:
+        root_url: https://grafana.kubeone.kube.uno
+    #529
+    sidecar:
+      dashboards:
+        enabled: true
+      datasources:
+        enabled: true
+    #605
+    # imageRenderer:
+    #   enabled: ftrue
+    #   env:
+    #     BROWSER_TZ: "Europe/Berlin"
+    #     ENABLE_METRICS: true
+    #     LOG_LEVEL: debug
+    #     RENDERING_ARGS: "--no-sandbox,--disable-setuid-sandbox,--disable-dev-shm-usage,--disable-accelerated-2d-canvas,--disable-gpu,--window-size=1920x1080"
