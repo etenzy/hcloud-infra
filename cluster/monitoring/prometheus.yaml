@@ -70,6 +70,19 @@ spec:
               port: metrics
       additionalPodMonitors:
         - name: "flux"
+          selector:
+            matchExpressions:
+              - {
+                  key: app,
+                  operator: In,
+                  values:
+                    [
+                      helm-controller,
+                      kustomize-controller,
+                      notification-controller,
+                      source-controller,
+                    ],
+                }
           namespaceSelector:
             matchNames:
               - flux-system
