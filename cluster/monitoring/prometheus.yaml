@@ -73,6 +73,6 @@ spec:
           namespaceSelector:
             matchNames:
               - flux-system
-          endpoints:
+          podMetricsEndpoints:
             - path: /metrics
               port: http-prom
