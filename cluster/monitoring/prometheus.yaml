@@ -35,13 +35,13 @@ spec:
           endpoints:
             - path: /metrics
               port: metrics
-        - name: "node-exporter"
+        - name: "flux"
           selector:
             matchLabels:
               app: node-exporter
           namespaceSelector:
             matchNames:
-              - kube-system
+              - flux-system
           endpoints:
             - path: /metrics
               port: metrics
@@ -68,3 +68,10 @@ spec:
           endpoints:
             - path: /metrics
               port: metrics
+      additionalPodMonitors:
+        - name: "flux"
+          namespaceSelector:
+            matchNames: flux-system
+          endpoints:
+            - path: /metrics
+              port: http-prom
