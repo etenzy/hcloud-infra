@@ -71,7 +71,8 @@ spec:
       additionalPodMonitors:
         - name: "flux"
           namespaceSelector:
-            matchNames: flux-system
+            matchNames:
+              - flux-system
           endpoints:
             - path: /metrics
               port: http-prom
