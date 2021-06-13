@@ -18,9 +18,6 @@ spec:
     #509
     grafana:
       enabled: false
-    #1105
-    nodeExporter:
-      enabled: true
     #1408
     prometheus:
       #2008
@@ -32,16 +29,6 @@ spec:
           namespaceSelector:
             matchNames:
               - kube-system
-          endpoints:
-            - path: /metrics
-              port: metrics
-        - name: "flux"
-          selector:
-            matchLabels:
-              app: node-exporter
-          namespaceSelector:
-            matchNames:
-              - flux-system
           endpoints:
             - path: /metrics
               port: metrics
