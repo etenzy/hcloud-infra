@@ -31,7 +31,7 @@ spec:
               - kube-system
           endpoints:
             - path: /metrics
-              port: 443
+              port: "443"
         - name: "grafana-metrics"
           selector:
             matchLabels:
