@@ -32,16 +32,6 @@ spec:
           endpoints:
             - path: /metrics
               port: 443
-        - name: "state-metrics"
-          selector:
-            matchLabels:
-              app.kubernetes.io/name: kube-state-metrics
-          namespaceSelector:
-            matchNames:
-              - monitoring
-          endpoints:
-            - path: /metrics
-              port: 8080
         - name: "grafana-metrics"
           selector:
             matchLabels:
