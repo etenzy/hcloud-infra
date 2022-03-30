@@ -1,0 +1,21 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: cert-manager
+  namespace: kube-infra
+spec:
+  chart:
+    spec:
+      # renovate: registryUrl=https://charts.jetstack.io/
+      chart: cert-manager
+      version: "1.7.2"
+  values:
+    volumeMounts:
+      - mountPath: /.aws
+        name: credentials
+        readOnly: true
+    volumes:
+      - name: credentials
+        secret:
+          secretName: cert-manager-route53-credentials
