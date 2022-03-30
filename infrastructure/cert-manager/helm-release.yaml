@@ -13,5 +13,9 @@ spec:
         name: cert-manager
         namespace: kube-infra
   interval: 10m0s
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
   values:
     installCRDs: true
