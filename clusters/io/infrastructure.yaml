@@ -11,9 +11,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
-  dependsOn:
-    - name: helm-repositories
-  path: ./infrastructure/production
+  path: ./clusters/io/infrastructure
   prune: true
   sourceRef:
     kind: GitRepository
