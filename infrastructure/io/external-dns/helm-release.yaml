@@ -1,0 +1,28 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: external-dns
+  namespace: kube-infra
+spec:
+  chart:
+    spec:
+      # renovate: registryUrl=https://charts.bitnami.com/bitnami
+      chart: external-dns
+      version: "6.2.3"
+  values:
+    provider: aws
+    aws:
+      credentials:
+        secretName: external-dns-route53-credentials
+        mountPath: "/.aws"
+      region: "eu-central-1"
+      zoneType: "public"
+      batchChangeSize: 1000
+    txtOwnerId: "external-dns.io.kube.uno"
+    resources:
+      limits:
+        memory: 50Mi
+      requests:
+        memory: 50Mi
+        cpu: 10m

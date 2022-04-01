@@ -1,0 +1,30 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: external-dns
+  namespace: kube-infra
+spec:
+  chart:
+    spec:
+      chart: external-dns
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: kube-infra
+  interval: 10m0s
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
+  values:
+    crd:
+      create: true
+      apiversion: externaldns.k8s.io/v1alpha1
+      kind: DNSEndpoint
+    sources:
+      - service
+      - ingress
+    interval: "1m"
+    registry: "txt"
+    txtOwnerId: "external-dns"
+    policy: upsert-only
