@@ -18,6 +18,9 @@ spec:
     crds: CreateReplace
   values:
     grafana:
+      serviceMonitor:
+        labels:
+          release: kube-prometheus-stack
       imageRenderer:
         enabled: false
         env:
