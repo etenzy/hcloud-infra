@@ -16,3 +16,13 @@ spec:
     crds: CreateReplace
   upgrade:
     crds: CreateReplace
+  values:
+    grafana:
+      imageRenderer:
+        enabled: false
+        env:
+          BROWSER_TZ: "Europe/Berlin"
+          HTTP_HOST: 0.0.0.0
+          ENABLE_METRICS: true
+        networkPolicy:
+          limitIngress: false
