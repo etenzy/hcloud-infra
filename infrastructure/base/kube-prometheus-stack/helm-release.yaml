@@ -18,12 +18,15 @@ spec:
     crds: CreateReplace
   values:
     grafana:
+      persistence:
+        enabled: true
       imageRenderer:
         enabled: true
         env:
           BROWSER_TZ: "Europe/Berlin"
-          HTTP_HOST: 0.0.0.0
           ENABLE_METRICS: true
+        networkPolicy:
+          limitIngress: false
       serviceMonitor:
         labels:
           release: kube-prometheus-stack
