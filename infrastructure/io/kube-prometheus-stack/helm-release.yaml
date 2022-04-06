@@ -19,9 +19,10 @@ spec:
         port: 10252
         targetPort: 10252
       serviceMonitor:
-        enabled: true
         https: false
     kubeScheduler:
       service:
         port: 10251
         targetPort: 10251
+      serviceMonitor:
+        https: false
