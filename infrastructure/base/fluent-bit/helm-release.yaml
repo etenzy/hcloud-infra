@@ -12,6 +12,8 @@ spec:
         name: fluent
         namespace: kube-infra
   interval: 10m0s
+  dependsOn:
+    - name: kube-prometheus-stack
   values:
     serviceMonitor:
       enabled: true
