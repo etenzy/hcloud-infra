@@ -64,30 +64,8 @@ spec:
     config:
       outputs: |
         [OUTPUT]
-            Name loki
-            Match *
-            Url http://loki:3100/loki/api/v1/push
-            TenantID ""
-            BatchWait 1
-            BatchSize 1048576
-            Labels {job="fluentbit"}
-            RemoveKeys kubernetes,stream
-            AutoKubernetesLabels on
-            LabelMapPath /fluent-bit/etc/labelmap.json
-            LineFormat json
-            LogLevel warn
-      extraFiles:
-        labelmap.json: |-
-          {
-            "kubernetes": {
-              "container_name": "container",
-              "host": "node",
-              "labels": {
-                "app": "app",
-                "release": "release"
-              },
-            "namespace_name": "namespace",
-            "pod_name": "instance"
-            },
-            "stream": "stream"
-          }
+            name loki
+            match *
+            url http://loki:3100/loki/api/v1/push
+            labels job=fluentbit
+            auto_kubernetes_labels on
