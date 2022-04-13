@@ -22,8 +22,6 @@ spec:
         release: kube-prometheus-stack
       prometheusRule:
         enabled: true
-        additionalLabels:
-          release: kube-prometheus-stack
         rules:
           - alert: LokiProcessTooManyRestarts
             expr: changes(process_start_time_seconds{job=~"loki"}[15m]) > 2
