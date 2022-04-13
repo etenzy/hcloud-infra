@@ -63,7 +63,7 @@ spec:
         effect: NoSchedule
     config:
       outputs: |
-        [OUTPUT]
+        [Output]
             Name grafana-loki
             Match *
             Url http://loki:3100/loki/api/v1/push
@@ -76,6 +76,7 @@ spec:
             LabelMapPath /fluent-bit/etc/labelmap.json
             LineFormat json
             LogLevel warn
+        [OUTPUT]
       extraFiles:
         labelmap.json: |-
           {
