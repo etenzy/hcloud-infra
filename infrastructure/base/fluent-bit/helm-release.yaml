@@ -42,7 +42,8 @@ spec:
     prometheusRule:
       enabled: true
       namespace: ""
-      additionalLabels: {}
+      additionalLabels:
+        release: kube-prometheus-stack
       rules:
       - alert: NoOutputBytesProcessed
         expr: rate(fluentbit_output_proc_bytes_total[5m]) == 0
