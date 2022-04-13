@@ -19,7 +19,6 @@ spec:
       enabled: true
       additionalLabels:
         prometheus: default
-        release: kube-prometheus-stack
       prometheusRule:
         enabled: true
         rules:
