@@ -26,3 +26,6 @@ spec:
         targetPort: 10251
       serviceMonitor:
         https: false
+    prometheus:
+      prometheusSpec:
+        retention: 10d
