@@ -15,7 +15,44 @@ spec:
   values:
     serviceMonitor:
       enabled: true
+      namespace: kube-infra
+      interval: 10s
+      scrapeTimeout: 10s
+      jobLabel: fluentbit
+      selector:
+        prometheus: default
+        release: kube-prometheus-stack
+      ## metric relabel configs to apply to samples before ingestion.
+      ##
+      metricRelabelings:
+        - sourceLabels: [__meta_kubernetes_service_label_cluster]
+          targetLabel: cluster
+          regex: (.*)
+          replacement: ${1}
+          action: replace
+      ## relabel configs to apply to samples after ingestion.
+      ##
+      relabelings:
+        - sourceLabels: [__meta_kubernetes_pod_node_name]
+          separator: ;
+          regex: ^(.*)$
+          targetLabel: nodename
+          replacement: $1
+          action: replace
     prometheusRule:
       enabled: true
+      namespace: ""
+      additionalLabels: {}
+      rules:
+      - alert: NoOutputBytesProcessed
+        expr: rate(fluentbit_output_proc_bytes_total[5m]) == 0
+        annotations:
+          message: |
+            Fluent Bit instance {{ $labels.instance }}'s output plugin {{ $labels.name }} has not processed any
+            bytes for at least 15 minutes.
+          summary: No Output Bytes Processed
+        for: 15m
+        labels:
+          severity: critical
     dashboards:
       enabled: true
