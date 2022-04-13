@@ -85,8 +85,7 @@ spec:
               "host": "node",
               "labels": {
                 "app": "app",
-                "release": "release",
-                "calculationId": "calculationId" # IT WAS ADDED HERE
+                "release": "release"
               },
             "namespace_name": "namespace",
             "pod_name": "instance"
