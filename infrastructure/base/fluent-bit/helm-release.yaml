@@ -60,3 +60,34 @@ spec:
     tolerations: 
       - key: node-role.kubernetes.io/master
         effect: NoSchedule
+    config:
+      outputs: |
+        [OUTPUT]
+            Name grafana-loki
+            Match *
+            Url http://loki:3100/loki/api/v1/push
+            TenantID ""
+            BatchWait 1
+            BatchSize 1048576
+            Labels {job="fluent-bit"}
+            RemoveKeys kubernetes,stream
+            AutoKubernetesLabels false
+            LabelMapPath /fluent-bit/etc/labelmap.json
+            LineFormat json
+            LogLevel warn
+    extraFiles:
+      labelmap.json: |-
+        {
+          "kubernetes": {
+            "container_name": "container",
+            "host": "node",
+            "labels": {
+              "app": "app",
+              "release": "release",
+              "calculationId": "calculationId" # IT WAS ADDED HERE
+            },
+          "namespace_name": "namespace",
+          "pod_name": "instance"
+          },
+          "stream": "stream"
+        }
