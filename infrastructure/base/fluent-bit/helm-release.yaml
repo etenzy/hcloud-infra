@@ -77,19 +77,19 @@ spec:
             LabelMapPath /fluent-bit/etc/labelmap.json
             LineFormat json
             LogLevel warn
-    extraFiles:
-      labelmap.json: |-
-        {
-          "kubernetes": {
-            "container_name": "container",
-            "host": "node",
-            "labels": {
-              "app": "app",
-              "release": "release",
-              "calculationId": "calculationId" # IT WAS ADDED HERE
+      extraFiles:
+        labelmap.json: |-
+          {
+            "kubernetes": {
+              "container_name": "container",
+              "host": "node",
+              "labels": {
+                "app": "app",
+                "release": "release",
+                "calculationId": "calculationId" # IT WAS ADDED HERE
+              },
+            "namespace_name": "namespace",
+            "pod_name": "instance"
             },
-          "namespace_name": "namespace",
-          "pod_name": "instance"
-          },
-          "stream": "stream"
-        }
+            "stream": "stream"
+          }
