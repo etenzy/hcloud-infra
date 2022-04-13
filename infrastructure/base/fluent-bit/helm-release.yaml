@@ -76,7 +76,6 @@ spec:
             LabelMapPath /fluent-bit/etc/labelmap.json
             LineFormat json
             LogLevel warn
-        [OUTPUT]
       extraFiles:
         labelmap.json: |-
           {
