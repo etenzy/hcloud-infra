@@ -12,3 +12,10 @@ spec:
         name: fluent
         namespace: kube-infra
   interval: 10m0s
+  values:
+    serviceMonitor:
+      enabled: true
+    prometheusRule:
+      enabled: true
+    dashboards:
+      enabled: true
