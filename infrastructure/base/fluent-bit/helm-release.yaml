@@ -70,5 +70,5 @@ spec:
             port 3100
             tenant_id ""
             Labels job=fluentbit
-            auto_kubernetes_labels false
+            auto_kubernetes_labels on
             line_format json
