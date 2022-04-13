@@ -63,16 +63,16 @@ spec:
         effect: NoSchedule
     config:
       outputs: |
-        [Output]
-            Name grafana-loki
+        [OUTPUT]
+            Name loki
             Match *
             Url http://loki:3100/loki/api/v1/push
             TenantID ""
             BatchWait 1
             BatchSize 1048576
-            Labels {job="fluent-bit"}
+            Labels {job="fluentbit"}
             RemoveKeys kubernetes,stream
-            AutoKubernetesLabels false
+            AutoKubernetesLabels on
             LabelMapPath /fluent-bit/etc/labelmap.json
             LineFormat json
             LogLevel warn
