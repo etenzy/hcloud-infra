@@ -69,7 +69,7 @@ spec:
             host loki
             port 3100
             tenant_id ""
-            labels namespace=${namespace_name}
-            label_keys namespace, namespace_name, $namespace, $namespace_name
+            labels job=fluentbit, namespace=$kubernetes['namespace_name'], app=$kubernetes['labels']['app']
+            remove_keys kubernetes
             auto_kubernetes_labels on
             line_format json
