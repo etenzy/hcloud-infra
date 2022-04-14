@@ -69,5 +69,6 @@ spec:
             host loki
             port 3100
             tenant_id ""
+            label_keys namespace
             auto_kubernetes_labels on
             line_format json
