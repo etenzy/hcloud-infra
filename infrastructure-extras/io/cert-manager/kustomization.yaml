@@ -3,11 +3,11 @@ kind: Kustomization
 resources:
   - ../../base/cert-manager
 patchesStrategicMerge:
-- |-
-  apiVersion: cert-manager.io/v1
-  kind: Certificate
-  metadata:
-    name: selfsigned-ca
-  spec:
-    commonName: io-selfsigned-ca
+  - |-
+    apiVersion: cert-manager.io/v1
+    kind: Certificate
+    metadata:
+      name: selfsigned-ca
+    spec:
+      commonName: io-selfsigned-ca
           
