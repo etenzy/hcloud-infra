@@ -69,6 +69,5 @@ spec:
             host loki
             port 3100
             tenant_id ""
-            Labels job=fluentbit, namespace
             auto_kubernetes_labels on
             line_format json
