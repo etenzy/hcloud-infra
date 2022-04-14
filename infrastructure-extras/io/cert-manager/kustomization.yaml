@@ -8,5 +8,6 @@ patchesStrategicMerge:
     kind: Certificate
     metadata:
       name: selfsigned-ca
+      namespace: kube-infra
     spec:
       commonName: io-selfsigned-ca
