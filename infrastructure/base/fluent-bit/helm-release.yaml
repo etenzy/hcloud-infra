@@ -69,8 +69,7 @@ spec:
             host loki
             port 3100
             tenant_id ""
-            labels job=fluentbit, namespace=$kubernetes['namespace_name'], pod=$kubernetes['pod_name'], container=$kubernetes['container_name'], host=$kubernetes['host'], app=$kubernetes['labels']['app']
-            auto_kubernetes_labels on
-            remove_keys kubernetes
+            labels job=fluentbit, type=k8s
+            auto_kubernetes_labels off
             drop_single_key on
             line_format json
