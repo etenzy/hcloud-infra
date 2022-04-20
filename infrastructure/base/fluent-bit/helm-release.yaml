@@ -70,6 +70,6 @@ spec:
             port 3100
             tenant_id ""
             labels job=fluentbit, type=k8s
-            auto_kubernetes_labels off
+            auto_kubernetes_labels on
             drop_single_key on
             line_format json
