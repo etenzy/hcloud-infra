@@ -62,6 +62,39 @@ spec:
       - key: node-role.kubernetes.io/master
         effect: NoSchedule
     config:
+      filters: |
+        [FILTER]
+            Name kubernetes
+            Match kube.*
+            Merge_Log On
+            Merge_Log_Trim On
+            Labels Off
+            Annotations Off
+            K8S-Logging.Parser Off
+            K8S-Logging.Exclude Off
+
+        [FILTER]
+            Name nest
+            Match kube.*
+            Operation lift
+            Nested_under kubernetes
+            Add_prefix   kubernetes_
+
+        [FILTER]
+            Name modify
+            Match kube.*
+            Rename log msg
+            Rename kubernetes_pod_name pod
+            Rename kubernetes_namespace_name namespace
+            Rename kubernetes_container_name container
+            Remove kubernetes_container_image
+            Remove kubernetes_docker_id
+            Remove kubernetes_pod_id
+            Remove kubernetes_host
+            Remove time
+            Remove kubernetes_container_hash
+            Add job 
+            Add cluster io
       outputs: |
         [OUTPUT]
             Name loki
@@ -69,7 +102,6 @@ spec:
             host loki
             port 3100
             tenant_id ""
-            labels job=fluentbit, type=k8s
+            labels type=k8s stream=$stream
             auto_kubernetes_labels on
-            drop_single_key on
             line_format json

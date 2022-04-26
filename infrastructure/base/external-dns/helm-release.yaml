@@ -27,4 +27,4 @@ spec:
     interval: "1m"
     registry: "txt"
     txtOwnerId: "external-dns"
-    policy: upsert-only
+    policy: sync
