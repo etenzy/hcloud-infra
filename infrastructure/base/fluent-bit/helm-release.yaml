@@ -64,37 +64,89 @@ spec:
     config:
       filters: |
         [FILTER]
-            Name kubernetes
-            Match kube.*
-            Merge_Log On
-            Merge_Log_Trim On
-            Labels Off
-            Annotations Off
-            K8S-Logging.Parser Off
-            K8S-Logging.Exclude Off
-
-        [FILTER]
-            Name nest
-            Match kube.*
-            Operation lift
-            Nested_under kubernetes
-            Add_prefix   kubernetes_
-
-        [FILTER]
             Name modify
             Match kube.*
             Rename log msg
-            Rename kubernetes_pod_name pod
-            Rename kubernetes_namespace_name namespace
-            Rename kubernetes_container_name container
-            Remove kubernetes_container_image
-            Remove kubernetes_docker_id
-            Remove kubernetes_pod_id
-            Remove kubernetes_host
-            Remove time
-            Remove kubernetes_container_hash
-            Add job 
-            Add cluster io
+
+        [FILTER]
+            Name kubernetes
+            Match kube.*
+            Merge_Log On
+            Keep_Log Off
+            K8S-Logging.Parser On
+            K8S-Logging.Exclude On
+
+        [FILTER]
+            Name                nest
+            Match               *
+            Operation           lift
+            Nested_under        kubernetes
+            Add_prefix          kubernetes_
+
+        [FILTER]
+            Name                nest
+            Match               *
+            Operation           lift
+            Nested_under        kubernetes_labels
+            Add_prefix          kubernetes_labels_
+
+        [FILTER]
+            Name    modify
+            Match   *
+
+            Condition Key_Does_Not_Exist kubernetes_labels_app.kubernetes.io/name
+            Condition Key_Does_Not_Exist kubernetes_labels_k8s-app
+            Condition Key_Exists kubernetes_labels_app
+
+            Rename kubernetes_labels_app kubernetes_labels_app.kubernetes.io/name
+
+        [FILTER]
+            Name    modify
+            Match   *
+
+            Condition Key_Does_Not_Exist kubernetes_labels_app.kubernetes.io/name
+            Condition Key_Does_Not_Exist kubernetes_labels_app
+            Condition Key_Exists kubernetes_labels_k8s-app
+
+            Rename kubernetes_labels_k8s-app kubernetes_labels_app.kubernetes.io/name
+
+
+        [FILTER]
+            Name    modify
+            Match   *
+
+            Condition Key_Does_Not_Exist kubernetes_labels_app.kubernetes.io/name
+            Condition Key_Does_Not_Exist kubernetes_labels_app
+            Condition Key_Does_Not_Exist kubernetes_labels_k8s-app
+            Condition Key_Exists kubernetes_pod_name
+
+            Rename kubernetes_pod_name kubernetes_labels_app.kubernetes.io/name
+
+        [FILTER]
+            Name  record_modifier
+            Match *
+            Record job kubernetes_namespace_name
+
+        [FILTER]
+            Name                nest
+            Match               *
+            Operation           nest
+            Wildcard            kubernetes_labels_*
+            Nest_under          kubernetes_labels
+            Remove_prefix       kubernetes_labels_
+
+        [FILTER]
+            Name                nest
+            Match               *
+            Operation           nest
+            Wildcard            kubernetes_*
+            Nest_under          kubernetes
+            Remove_prefix       kubernetes_
+
+        [FILTER]
+            Name                modify
+            Match               *
+            Remove_wildcard     kubernetes_
       outputs: |
         [OUTPUT]
             Name loki
@@ -102,6 +154,6 @@ spec:
             host loki
             port 3100
             tenant_id ""
-            labels type=k8s stream=$stream
-            auto_kubernetes_labels on
+            labels type=k8s, stream=$stream, node_name=$kubernetes['host'], namespace=$kubernetes['namespace_name'], pod=$kubernetes['pod_name'], container=$kubernetes['container_name'], app=$kubernetes['labels']['app.kubernetes.io/name'], cluster=io
+            auto_kubernetes_labels off
             line_format json
