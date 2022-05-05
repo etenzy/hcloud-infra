@@ -19,7 +19,7 @@ spec:
   upgrade:
     crds: CreateReplace
     remediation:
-      retires: 10
+      retries: 10
   values:
     grafana:
       persistence:
