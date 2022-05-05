@@ -24,7 +24,6 @@ spec:
     grafana:
       persistence:
         enabled: true
-        size: 1Gi
       imageRenderer:
         enabled: true
         env:
