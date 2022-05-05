@@ -13,9 +13,13 @@ spec:
         namespace: kube-infra
   interval: 10m0s
   install:
-    crds: CreateReplace
+    crds: Create
+    remediation:
+      retries: 3
   upgrade:
     crds: CreateReplace
+    remediation:
+      retires: 10
   values:
     grafana:
       persistence:
