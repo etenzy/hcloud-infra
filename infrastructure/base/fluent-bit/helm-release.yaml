@@ -71,7 +71,7 @@ spec:
             apiVersion: v1
             fieldPath: metadata.labels['cluster-name']
     luaScripts:
-      - build_job_value.lua: |
+      build_job_value.lua: |
           function build_job_value(tag, timestamp, record) 
             new_record = record new_record["job"] = record["kubernetes_cluster_name"] .. "/" .. record["kubernetes_namespace_name"] 
             return 1, timestamp, new_record 
