@@ -62,8 +62,7 @@ spec:
       - key: node-role.kubernetes.io/master
         effect: NoSchedule
     podLabels:
-      - name: cluster-name
-        value: cluster-name
+      cluster-name: cluster-name
     env:
       - name: KUBERNETES_CLUSTER_NAME
         valueFrom:
