@@ -150,11 +150,6 @@ spec:
             Rename kubernetes_pod_name kubernetes_labels_app.kubernetes.io/name
 
         [FILTER]
-            Name record_modifier
-            Match *
-            Record job kubernetes_namespace_name
-
-        [FILTER]
             Name nest
             Match *
             Operation nest
