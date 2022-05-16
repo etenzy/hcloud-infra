@@ -72,11 +72,11 @@ spec:
             fieldPath: metadata.labels['cluster-name']
     luaScripts:
       build_job_value.lua |
-        print("Build job value...")
-        function build_job_value(tag, timestamp, record) 
-          new_record = record new_record["job"] = record["kubernetes_cluster_name"] .. "/" .. record["kubernetes_namespace_name"] 
-          return 1, timestamp, new_record 
-        end
+          print("Build job value...")
+          function build_job_value(tag, timestamp, record) 
+            new_record = record new_record["job"] = record["kubernetes_cluster_name"] .. "/" .. record["kubernetes_namespace_name"] 
+            return 1, timestamp, new_record 
+          end
     config:
       filters: |
         [FILTER]
