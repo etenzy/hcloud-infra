@@ -70,7 +70,7 @@ spec:
             apiVersion: v1
             fieldPath: metadata.labels['cluster-name']
     luaScripts:
-      append_tag: |
+      append_tag.lua: |
           function append_tag(tag, timestamp, record)
             new_record = record
             new_record["tag"] = tag
