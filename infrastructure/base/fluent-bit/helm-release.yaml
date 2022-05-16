@@ -70,15 +70,14 @@ spec:
             apiVersion: v1
             fieldPath: metadata.labels['cluster-name']
     luaScripts:
-      append_tag.lua: |
+      misc.lua: |
           function append_tag(tag, timestamp, record)
-            new_record = record
-            new_record["tag"] = tag
-            return 1, timestamp, new_record
+            record["tag"] = tag
+            return 1, timestamp, record
           end
-      append_job.lua: |
+      kubernetes.lua: |
           function append_job(tag, timestamp, record)
-            record["job"] = string.format("%s/%s", record["kubernetes_namespace_name"], record["kubernetes_labels_app.kubernetes.io/name"])
+            record["kubernetes_job"] = string.format("%s/%s", record["kubernetes_namespace_name"], record["kubernetes_labels_app.kubernetes.io/name"])
             return 1, timestamp, record
           end
     config:
@@ -150,13 +149,13 @@ spec:
         [FILTER]
             Name lua
             Match *
-            script /fluent-bit/scripts/append_tag.lua
+            script /fluent-bit/scripts/misc.lua
             call append_tag
 
         [FILTER]
             Name lua
             Match *
-            script /fluent-bit/scripts/append_job.lua
+            script /fluent-bit/scripts/kubernetes.lua
             call append_job
 
         [FILTER]
@@ -186,6 +185,6 @@ spec:
             host loki
             port 3100
             tenant_id ""
-            labels type=k8s, stream=$stream, node_name=$kubernetes['host'], namespace=$kubernetes['namespace_name'], pod=$kubernetes['pod_name'], container=$kubernetes['container_name'], app=$kubernetes['labels']['app.kubernetes.io/name'], cluster=$kubernetes['cluster_name']
+            labels type=k8s, stream=$stream, node_name=$kubernetes['host'], namespace=$kubernetes['namespace_name'], job=$kubernetes['job'], pod=$kubernetes['pod_name'], container=$kubernetes['container_name'], app=$kubernetes['labels']['app.kubernetes.io/name'], cluster=$kubernetes['cluster_name']
             auto_kubernetes_labels off
             line_format json
