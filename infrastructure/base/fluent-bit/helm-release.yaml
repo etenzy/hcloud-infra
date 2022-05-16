@@ -138,7 +138,7 @@ spec:
 
         [FILTER]
             Name modify
-            Match*
+            Match *
 
             Condition Key_Does_Not_Exist kubernetes_labels_app.kubernetes.io/name
             Condition Key_Does_Not_Exist kubernetes_labels_app
