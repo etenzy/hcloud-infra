@@ -72,13 +72,14 @@ spec:
     luaScripts:
       append_tag: |
           function append_tag(tag, timestamp, record)
-            record["tag"] = tag
-            return 1, timestamp, record
+            new_record = record
+            new_record["tag"] = tag
+            return 1, timestamp, new_record
           end
       append_job.lua: |
           function append_job(tag, timestamp, record)
             record["job"] = string.format("%s/%s", record["kubernetes_namespace_name"], record["kubernetes_labels_app.kubernetes.io/name"])
-            return 1, timestamp, record 
+            return 1, timestamp, record
           end
     config:
       filters: |
@@ -115,13 +116,13 @@ spec:
             Record kubernetes_cluster_name ${KUBERNETES_CLUSTER_NAME}
 
         [FILTER]
-            Name Lua
+            Name lua
             Match *
             script /fluent-bit/scripts/append_tag.lua
             call append_tag
 
         [FILTER]
-            Name Lua
+            Name lua
             Match *
             script /fluent-bit/scripts/append_job.lua
             call append_job
