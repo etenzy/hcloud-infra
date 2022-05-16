@@ -116,18 +116,6 @@ spec:
             Record kubernetes_cluster_name ${KUBERNETES_CLUSTER_NAME}
 
         [FILTER]
-            Name lua
-            Match *
-            script /fluent-bit/scripts/append_tag.lua
-            call append_tag
-
-        [FILTER]
-            Name lua
-            Match *
-            script /fluent-bit/scripts/append_job.lua
-            call append_job
-
-        [FILTER]
             Name modify
             Match *
 
@@ -158,6 +146,18 @@ spec:
             Condition Key_Exists kubernetes_pod_name
 
             Rename kubernetes_pod_name kubernetes_labels_app.kubernetes.io/name
+
+        [FILTER]
+            Name lua
+            Match *
+            script /fluent-bit/scripts/append_tag.lua
+            call append_tag
+
+        [FILTER]
+            Name lua
+            Match *
+            script /fluent-bit/scripts/append_job.lua
+            call append_job
 
         [FILTER]
             Name nest
