@@ -80,6 +80,11 @@ spec:
             record["kubernetes_job"] = string.format("%s/%s", record["kubernetes_namespace_name"], record["kubernetes_labels_app.kubernetes.io/name"])
             return 1, timestamp, record
           end
+      logstash.lua: |
+          function append_prefix(tag, timestamp, record)
+            record['logstash_prefix'] = string.format("%s/%s", record["kubernetes_cluster_name"], record["kubernetes_namespace_name"])
+            return 1, timestamp, record
+          end
     config:
       filters: |
         [FILTER]
@@ -159,6 +164,12 @@ spec:
             call append_job
 
         [FILTER]
+            Name lua
+            Match *
+            script /fluent-bit/scripts/logstash.lua
+            call append_prefix
+
+        [FILTER]
             Name nest
             Match *
             Operation nest
@@ -185,6 +196,6 @@ spec:
             host loki
             port 3100
             tenant_id ""
-            labels type=k8s, stream=$stream, node_name=$kubernetes['host'], namespace=$kubernetes['namespace_name'], job=$kubernetes['job'], pod=$kubernetes['pod_name'], container=$kubernetes['container_name'], app=$kubernetes['labels']['app.kubernetes.io/name'], cluster=$kubernetes['cluster_name']
+            labels type=k8s, stream=$stream, node_name=$kubernetes['host'], namespace=$kubernetes['namespace_name'], job=$kubernetes['job'], pod=$kubernetes['pod_name'], container=$kubernetes['container_name'], app=$kubernetes['labels']['app.kubernetes.io/name']
             auto_kubernetes_labels off
             line_format json
