@@ -82,7 +82,7 @@ spec:
           end
       logstash.lua: |
           function append_prefix(tag, timestamp, record)
-            record['logstash_prefix'] = string.format("%s/%s", record["kubernetes_cluster_name"], record["kubernetes_namespace_name"])
+            record['logstash_prefix'] = string.format("logstash-%s-%s", record["kubernetes_cluster_name"], record["kubernetes_namespace_name"])
             return 1, timestamp, record
           end
     config:
