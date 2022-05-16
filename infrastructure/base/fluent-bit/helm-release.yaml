@@ -90,7 +90,7 @@ spec:
         [FILTER]
             Name modify
             Match kube.*
-            Rename log msg
+            Rename msg log
 
         [FILTER]
             Name kubernetes
