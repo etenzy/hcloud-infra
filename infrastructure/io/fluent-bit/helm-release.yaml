@@ -11,5 +11,5 @@ spec:
       version: "0.19.23"
   values:
     podLabels:
-    - name: cluster-name
-      value: io
+      - name: cluster-name
+        value: io
