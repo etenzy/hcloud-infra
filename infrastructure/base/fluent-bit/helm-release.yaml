@@ -70,10 +70,15 @@ spec:
             apiVersion: v1
             fieldPath: metadata.labels['cluster-name']
     luaScripts:
-      build_job_value.lua: |
-          function build_job_value(tag, timestamp, record) 
-            new_record = record new_record["job"] = record["kubernetes_cluster_name"] .. "/" .. record["kubernetes_namespace_name"] 
-            return 1, timestamp, new_record 
+      append_tag: |
+          function append_tag(tag, timestamp, record)
+            record["tag"] = tag
+            return 1, timestamp, record
+          end
+      append_job.lua: |
+          function append_job(tag, timestamp, record)
+            record["job"] = string.format("%s/%s", record["kubernetes_namespace_name"], record["kubernetes_labels_app.kubernetes.io/name"])
+            return 1, timestamp, record 
           end
     config:
       filters: |
@@ -112,8 +117,14 @@ spec:
         [FILTER]
             Name Lua
             Match *
-            script /fluent-bit/scripts/build_job_value.lua
-            call build_job_value
+            script /fluent-bit/scripts/append_tag.lua
+            call append_tag
+
+        [FILTER]
+            Name Lua
+            Match *
+            script /fluent-bit/scripts/append_job.lua
+            call append_job
 
         [FILTER]
             Name modify
@@ -174,6 +185,6 @@ spec:
             host loki
             port 3100
             tenant_id ""
-            labels type=k8s, stream=$stream, node_name=$kubernetes['host'], namespace=$kubernetes['namespace_name'], pod=$kubernetes['pod_name'], container=$kubernetes['container_name'], app=$kubernetes['labels']['app.kubernetes.io/name'], cluster=io
+            labels type=k8s, stream=$stream, node_name=$kubernetes['host'], namespace=$kubernetes['namespace_name'], pod=$kubernetes['pod_name'], container=$kubernetes['container_name'], app=$kubernetes['labels']['app.kubernetes.io/name'], cluster=$kubernetes['cluster_name']
             auto_kubernetes_labels off
             line_format json
