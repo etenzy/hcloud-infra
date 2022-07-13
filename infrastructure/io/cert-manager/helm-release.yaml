@@ -8,7 +8,7 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.jetstack.io/
       chart: cert-manager
-      version: "1.8.0"
+      version: "1.8.2"
   values:
     volumeMounts:
       - mountPath: /.aws
