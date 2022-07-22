@@ -10,7 +10,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: grafana
-        namespace: kube-infra
+        namespace: flux-system
   interval: 10m0s
   install:
     crds: CreateReplace

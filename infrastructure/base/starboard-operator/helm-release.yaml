@@ -6,11 +6,11 @@ metadata:
 spec:
   chart:
     spec:
-      chart: kube-prometheus-stack
+      chart: starboard-operator
       sourceRef:
         kind: HelmRepository
         name: aquasecurity
-        namespace: starboard-operator
+        namespace: flux-system
   interval: 10m0s
   install:
     crds: Create

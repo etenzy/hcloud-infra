@@ -5,6 +5,9 @@ metadata:
   namespace: kube-infra
 spec:
   interval: 10m0s
+  dependsOn:
+    - name: helm-repositories
+      namespace: flux-system
   path: ./infrastructure/io
   prune: true
   sourceRef:
