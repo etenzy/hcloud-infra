@@ -17,4 +17,8 @@ spec:
           - image_repository
           - image_tag
           - vulnerability_id
+    monitoring:
+      serviceMonitor:
+        labels:
+          release: kube-prometheus-stack
 
