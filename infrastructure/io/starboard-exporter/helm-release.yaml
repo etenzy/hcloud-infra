@@ -9,3 +9,12 @@ spec:
       # renovate: registryUrl=https://giantswarm.github.io/giantswarm-catalog
       chart: starboard-exporter
       version: "0.5.1"
+  values:
+    exporter:
+      vulnerabilityReports:
+        targetLabels:
+          - image_namespace
+          - image_repository
+          - image_tag
+          - vulnerability_id
+
