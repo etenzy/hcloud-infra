@@ -37,6 +37,7 @@ spec:
           release: kube-prometheus-stack
       sidecar:
         dashboards:
+          defaultFolderName: Misc
           searchNamespace: All
           folderAnnotation: k8s-sidecar-target-directory
           provider:
