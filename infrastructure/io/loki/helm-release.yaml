@@ -8,4 +8,4 @@ spec:
     spec:
       # renovate: registryUrl=https://grafana.github.io/helm-charts
       chart: loki
-      version: "2.13.1"
+      version: "3.3.2"

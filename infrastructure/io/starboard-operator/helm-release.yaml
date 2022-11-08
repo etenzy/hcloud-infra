@@ -8,4 +8,4 @@ spec:
     spec:
       # renovate: registryUrl=https://aquasecurity.github.io/helm-charts
       chart: starboard-operator
-      version: "0.10.6"
+      version: "0.10.11"
