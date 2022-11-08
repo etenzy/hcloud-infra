@@ -37,7 +37,6 @@ spec:
           release: kube-prometheus-stack
       sidecar:
         dashboards:
-          searchNamespace: All
           provider:
             foldersFromFilesStructure: true
           annotations: 
