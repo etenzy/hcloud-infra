@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - dashboard-flux-cluster.yaml
+  - dashboard-flux-control-plane.yaml
+  - dashboard-flux-logs.yaml
+  - podmonitor-flux-system.yaml
+  - service-monitor-metrics-server.yaml
