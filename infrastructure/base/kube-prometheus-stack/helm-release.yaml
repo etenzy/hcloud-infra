@@ -38,7 +38,6 @@ spec:
       sidecar:
         dashboards:
           searchNamespace: All
-          folderAnnotation: k8s-sidecar-target-directory
           provider:
             foldersFromFilesStructure: true
           annotations: 
