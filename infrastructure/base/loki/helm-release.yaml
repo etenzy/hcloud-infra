@@ -23,3 +23,12 @@ spec:
       strategy: uninstall
   dependsOn:
     - name: kube-prometheus-stack
+  values:
+    write:
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          effect: NoSchedule
+    read:
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          effect: NoSchedule
