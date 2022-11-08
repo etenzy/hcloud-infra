@@ -39,5 +39,8 @@ spec:
         dashboards:
           searchNamespace: All
           folderAnnotation: k8s-sidecar-target-directory
+          folder: /tmp/dashboards
           provider:
             foldersFromFilesStructure: true
+          annotations: 
+            k8s-sidecar-target-directory: "/tmp/dashboards/kubernetes"
