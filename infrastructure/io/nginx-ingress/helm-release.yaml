@@ -11,6 +11,10 @@ spec:
       version: "4.3.0"
   values:
     controller:
+      service:
+        annotations:
+          load-balancer.hetzner.cloud/location: nbg1
+          load-balancer.hetzner.cloud/use-private-ip: "true"
       extraArgs:
         default-ssl-certificate: default/letsencrypt-production-wildcard
       replicaCount: 3
