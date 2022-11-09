@@ -16,10 +16,10 @@ spec:
           load-balancer.hetzner.cloud/location: nbg1
           load-balancer.hetzner.cloud/use-private-ip: "true"
           load-balancer.hetzner.cloud/disable-private-ingress: "true"
+          load-balancer.hetzner.cloud/ipv6-disabled: "true"
         ipFamilies:
           - IPv4
-          - IPv6
-        ipFamilyPolicy: PreferDualStack
+        ipFamilyPolicy: SingleStack
       extraArgs:
         default-ssl-certificate: default/letsencrypt-production-wildcard
       replicaCount: 3
