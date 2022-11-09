@@ -29,3 +29,12 @@ spec:
     prometheus:
       prometheusSpec:
         retention: 90d
+    grafana:
+      ingress:
+        path: /
+        hosts:
+          - g.io.kube.uno
+        tls:
+          - hosts:
+              - g.io.kube.uno
+            secretName: g.io.kube.uno

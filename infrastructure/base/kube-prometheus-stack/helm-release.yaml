@@ -23,6 +23,10 @@ spec:
       strategy: uninstall
   values:
     grafana:
+      ingress:
+        enabled: true
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-production
       persistence:
         enabled: true
       imageRenderer:
