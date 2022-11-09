@@ -5,4 +5,4 @@ resources:
   - dashboard-flux-control-plane.yaml
   - dashboard-flux-logs.yaml
   - podmonitor-flux-system.yaml
-  - service-monitor-metrics-server.yaml
+  - servicemonitor-metrics-server.yaml
