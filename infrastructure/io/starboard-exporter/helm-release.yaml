@@ -21,4 +21,6 @@ spec:
       serviceMonitor:
         labels:
           release: kube-prometheus-stack
+      grafanaDashboard:
+        namespace: kube-infra
 
