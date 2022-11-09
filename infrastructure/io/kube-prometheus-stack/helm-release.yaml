@@ -36,4 +36,5 @@ spec:
           - g.io.kube.uno
         tls:
           - hosts:
-              - g.io.kube.uno
+              - "*.io.kube.uno"
+            secretName: letsencrypt-production-wildcard
