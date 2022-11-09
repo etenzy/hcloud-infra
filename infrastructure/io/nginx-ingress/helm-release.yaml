@@ -15,6 +15,7 @@ spec:
         annotations:
           load-balancer.hetzner.cloud/location: nbg1
           load-balancer.hetzner.cloud/use-private-ip: "true"
+          load-balancer.hetzner.cloud/disable-private-ingress: "true"
       extraArgs:
         default-ssl-certificate: default/letsencrypt-production-wildcard
       replicaCount: 3

@@ -37,4 +37,3 @@ spec:
         tls:
           - hosts:
               - g.io.kube.uno
-            secretName: g.io.kube.uno
