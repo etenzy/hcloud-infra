@@ -1,0 +1,72 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: ingress-nginx
+  namespace: kube-infra
+spec:
+  chart:
+    spec:
+      chart: ingress-nginx
+      sourceRef:
+        kind: HelmRepository
+        name: ingress-nginx
+        namespace: flux-system
+  interval: 10m0s
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 1
+      strategy: uninstall
+  dependsOn:
+    - name: external-dns
+    - name: cert-manager
+  values:
+    controller:
+      config:
+        custom-http-errors: 404,403,500,503
+      autoscaling:
+        enabled: true
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
+          additionalLabels:
+            prometheus: default
+            release: kube-prometheus-stack
+          namespace: kube-infra
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 97
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app.kubernetes.io/name
+                      operator: In
+                      values:
+                        - ingress-nginx
+                topologyKey: kubernetes.io/hostname
+    defaultBackend:
+      enabled: true
+      image:
+        repository: ghcr.io/181192/custom-error-pages
+        tag: latest
+      extraEnvs:
+        - name: ERROR_FILES_PATH
+          value: ./themes/ghost
+
+      replicaCount: 1
+
+      minAvailable: 0
+
+      resources:
+      limits:
+        cpu: 25m
+        memory: 256Mi
+      requests:
+        cpu: 10m
+        memory: 20Mi

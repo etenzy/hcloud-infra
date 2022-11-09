@@ -1,0 +1,21 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    email: hostmaster+staging@kube.uno
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    solvers:
+      - dns01:
+          route53:
+            region: eu-central-1
+      - http01:
+          ingress:
+            serviceType: ClusterIP
+            class: nginx
+        selector:
+          matchLabels:
+            use-http01-solver: "true"

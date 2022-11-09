@@ -1,0 +1,10 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: letsencrypt-production-wildcard
+  namespace: default
+spec:
+  secretName: letsencrypt-production-wildcard
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer

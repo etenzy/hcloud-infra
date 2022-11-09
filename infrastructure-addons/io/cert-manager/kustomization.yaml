@@ -3,11 +3,7 @@ kind: Kustomization
 resources:
   - ../../base/cert-manager
 patchesStrategicMerge:
-  - |-
-    apiVersion: cert-manager.io/v1
-    kind: Certificate
-    metadata:
-      name: selfsigned-ca
-      namespace: kube-infra
-    spec:
-      commonName: io-selfsigned-ca
+  - letsencrypt-production-wildcard.yaml
+  - letsencrypt-production.yaml
+  - letsencrypt-staging.yaml
+  - selfsigned-clusterissuer.yaml
