@@ -26,6 +26,8 @@ spec:
     - name: cert-manager
   values:
     controller:
+      ingressClassResource:
+        default: true
       config:
         custom-http-errors: 404,403,500,503
       autoscaling:
@@ -50,6 +52,12 @@ spec:
                       values:
                         - ingress-nginx
                 topologyKey: kubernetes.io/hostname
+      annotations:
+        nginx.ingress.kubernetes.io/configuration-snippet: |
+          location ~ ^/(metrics|readiness|healthz) {
+            deny all;
+            return 404;
+          }
     defaultBackend:
       enabled: true
       image:
