@@ -31,7 +31,7 @@ spec:
       config:
         custom-http-errors: 404,403,500,503
         server-snippet: |
-          location ~ ^/(metrics|readiness|healthz) {
+          location ~ ^/(metrics|healthz|livez|readyz) {
             deny all;
             return 404;
           }
