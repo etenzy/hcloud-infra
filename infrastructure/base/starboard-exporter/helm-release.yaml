@@ -29,5 +29,6 @@ spec:
             kind: ConfigMap
             metadata:
               name: grafana-starboard
+              namespace: kube-infra
               annotations:
                 k8s-sidecar-target-directory: "/tmp/dashboards/kube-infra"
