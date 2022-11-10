@@ -30,6 +30,11 @@ spec:
         default: true
       config:
         custom-http-errors: 404,403,500,503
+        location-snippet: |
+          location ~ ^/(metrics|readiness|healthz) {
+            deny all;
+            return 404;
+          }
       autoscaling:
         enabled: true
       metrics:
@@ -52,12 +57,6 @@ spec:
                       values:
                         - ingress-nginx
                 topologyKey: kubernetes.io/hostname
-      annotations:
-        nginx.ingress.kubernetes.io/configuration-snippet: |
-          location ~ ^/(metrics|readiness|healthz) {
-            deny all;
-            return 404;
-          }
     defaultBackend:
       enabled: true
       image:
