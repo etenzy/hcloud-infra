@@ -22,3 +22,12 @@ spec:
       retries: 1
   dependsOn:
     - name: starboard-operator
+  postRenderers:
+    - kustomize:
+        patchesStrategicMerge:
+          - apiVersion: v1
+            kind: ConfigMap
+            metadata:
+              name: grafana-starboard
+              annotations:
+                k8s-sidecar-target-directory: "/tmp/dashboards/kube-infra"
